@@ -107,7 +107,7 @@ class User extends Component {
             }
 		});
 	}
-	 handleEmailChange = (value) => {
+	 handleEmailChange(value){
 	    this.setState({
 	      emailSource: !value || value.indexOf('@') >= 0 ? [] : [
 	        `${value}@gmail.com`,

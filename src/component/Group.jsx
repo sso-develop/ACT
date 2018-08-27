@@ -3,6 +3,7 @@ import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Di
 import $ from 'jquery';
 
 const FormItem = Form.Item;
+
 class Instance extends Component {
 
 	constructor(props) {
