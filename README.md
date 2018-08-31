@@ -36,3 +36,6 @@ npm install webpack-dev-server --save-dev　　
 
 
 npm install -g webpack
+
+
+http://192.168.0.102:8081//dist/0.1.0/bundle.js
