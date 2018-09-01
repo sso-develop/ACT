@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link,Redirect} from 'react-router-dom';
 import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Divider,
 	Select	
 } from 'antd';
@@ -15,7 +16,6 @@ class Instance extends Component {
     	super(props);
     	this.state = {
                dataSource:[],
-               approvalVisible:false,
                assignVisible:false,
                userData:[],
                completeTask:{
@@ -77,13 +77,7 @@ class Instance extends Component {
             }
 		});
 	}
-	showModal(record){
-	    var completeTask = this.state.completeTask;
-	    completeTask.id = record.id;
-	   	completeTask.processInstanceId = record.processInstanceId;
-	   	completeTask.processDefinitionId = record.processDefinitionId;
-    	this.setState({approvalVisible: true,completeTask:completeTask});
-    }
+
 	showAssignModal(record){
 		var completeTask = this.state.completeTask;
 	    completeTask.id = record.id;
@@ -97,7 +91,6 @@ class Instance extends Component {
     }
 	closeModal(){
     	this.setState({ 
-    		approvalVisible: false,
     		assignVisible:false,
     		completeTask:{}
     	});
@@ -147,7 +140,7 @@ class Instance extends Component {
                 var id = record.id;
                 return (
                        <span>
-                            <a onClick = {this.showModal.bind(this,record)}>审核</a>
+														<Link to={{pathname: '/instance/instanceApproval/'+id}}>审核</Link>
                              <Divider type="vertical" />
                             <a onClick = {this.showAssignModal.bind(this,record)}>指派</a>
                        </span>
@@ -263,19 +256,6 @@ class Instance extends Component {
                 	dataSource={this.state.dataSource} columns={columns} />
                  </div>
                
-                <Modal
-                	width='1500px'
-                      title="任务审批"
-                       visible={this.state.approvalVisible}
-                       onCancel={this.handleCancel.bind(this)}
-                       footer={null}
-                    >
-                     <InstanceApproval
-                     	completeTask = {this.state.completeTask}
-                     	onCloseModal = {this.closeModal.bind(this)}
-                     	onLoadListData = {this.getPersonTask.bind(this)}
-                     />
-                 </Modal>
                  <Modal
                 	width='800px'
                       title="任务指派"

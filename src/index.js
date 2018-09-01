@@ -18,6 +18,7 @@ import Instance from './component/Instance.jsx';
 import History from './component/History.jsx';
 import Group from './component/Group.jsx';
 import User from './component/User.jsx';
+import InstanceApproval from './component/InstanceApproval.jsx';
 const pageRoute = (
     <Router>
         <App>
@@ -26,6 +27,7 @@ const pageRoute = (
              <Route exact path="/user" component={User} />
              <Route exact path="/definition" component={List} />
              <Route exact path="/instance" component={Instance} />
+			 <Route exact path="/instance/instanceApproval/:taskId" component={InstanceApproval} />
              <Route exact path="/history" component={History} />
              
         </App>

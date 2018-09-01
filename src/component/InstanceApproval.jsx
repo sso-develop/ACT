@@ -12,30 +12,42 @@ const RadioGroup = Radio.Group;
 class InstanceApproval extends Component {
 	constructor(props) {
     	super(props);
+			console.log(this.props.match.params.taskId,'11111')
     	this.state = {
-            completeTask:this.props.completeTask,
+            completeTask:{
+							processDefinitionId:this.props.match.params.taskId
+						},
             variableList:[],
             dataSource:[],
             paramType:''
         }
-    	this.getHistoricActivityInstance(this.state.completeTask.processInstanceId);
+    	
     }
-	componentWillReceiveProps(nextProps){
-		this.getHistoricActivityInstance(this.state.completeTask.processInstanceId);
-		this.setState({
-			variableList:[],
-			completeTask:nextProps.completeTask
-		})
-	}
+		componentWillMount(){
+			this.getHistoricActivityInstance(this.state.completeTask.processInstanceId);
+			this.getTask();
+		}
 	handleFormVariables(currency){
 	    var completeTask = this.state.completeTask;
         completeTask.variables = currency.target.value;
 	    this.state = {completeTask:completeTask}
 	}
+	getTask(){
+		let self = this;
+		$.post("/queryTaskById.json", {id:this.props.match.params.taskId},function(data) {
+				if(!data.success){
+								message.error(data.msg)
+						}else{
+							self.setState({
+								completeTask:data.data
+							})
+						}
+		});
+	}
 	 getHistoricActivityInstance(_processInstanceId){
 		let that = this;
 		$.post("/findHistoricActivityInstance.json", {processInstanceId:_processInstanceId},function(data) {
-			console.log();
+			
 		     if(!data.success){
                 message.error(data.msg)
              }else{
@@ -44,6 +56,7 @@ class InstanceApproval extends Component {
 		});
 	}
 	completeTask(e){
+		let self = this;
 		e.preventDefault();
 		const variables = {};
 		this.state.variableList.map((item, index) => {
@@ -52,15 +65,14 @@ class InstanceApproval extends Component {
 		})
 	    var completeTask = this.state.completeTask;
 	    completeTask.variables = JSON.stringify(variables);
-	    let that = this;
+	   
 	    
         $.post("/completeTask.json", completeTask,function(data) {
             console.log(data);
              if(!data.success){
                 message.error(data.msg)
               }else{
-                that.props.onCloseModal();
-                that.props.onLoadListData();
+								self.props.history.push('/instance');
               }
 		});
 	}
@@ -159,6 +171,7 @@ class InstanceApproval extends Component {
               };
         const traceprocessUrl = "/traceprocess.json?definitionId="+this.state.completeTask.processDefinitionId+"&instanceId="+this.state.completeTask.processInstanceId
 	 	return(
+		<div className='ant-advanced-search-form' >
 	 		<Form
                 horizontal = {'true'} 
 	 			onSubmit={this.completeTask.bind(this)}
@@ -252,7 +265,8 @@ class InstanceApproval extends Component {
 		                <Button type="primary"  htmlType="submit">提交</Button>
 		                <span style={{padding:"0 3px"}}></span>
                  	</FormItem>
-                  </Form>
+                </Form>
+									</div>
 	 	)
 	 }
 }
