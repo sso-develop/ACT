@@ -13,7 +13,7 @@ import './App.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import List from './component/List.jsx';
+import Definition from './component/Definition.jsx';
 import Instance from './component/Instance.jsx';
 import History from './component/History.jsx';
 import Group from './component/Group.jsx';
@@ -22,10 +22,10 @@ import InstanceApproval from './component/InstanceApproval.jsx';
 const pageRoute = (
     <Router>
         <App>
-             <Route exact path="/" component={List} />
+             <Route exact path="/" component={Definition} />
              <Route exact path="/group" component={Group} />
              <Route exact path="/user" component={User} />
-             <Route exact path="/definition" component={List} />
+             <Route exact path="/definition" component={Definition} />
              <Route exact path="/instance" component={Instance} />
 			 <Route exact path="/instance/instanceApproval/:taskId" component={InstanceApproval} />
              <Route exact path="/history" component={History} />
