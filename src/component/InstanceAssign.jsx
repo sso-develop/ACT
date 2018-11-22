@@ -4,6 +4,9 @@ import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Di
 } from 'antd';
 
 import $ from 'jquery';
+import Enum from '../common/Enum.js';
+
+const requestUrls =Enum.requestUrls;
 
 const FormItem = Form.Item;
 class InstanceAssign extends Component {
@@ -37,7 +40,7 @@ class InstanceAssign extends Component {
 	}
 	getUser(){
 		let self = this;
-		$.post("/queryAllUser.json", {},function(data) {
+		$.post(requestUrls.queryAllUserUrl, {},function(data) {
 		     if(!data.success){
                 message.error(data.msg)
             }else{
@@ -56,7 +59,7 @@ class InstanceAssign extends Component {
 			 message.error('请选择任务办理人')
 			return;
 		}
-		$.post("/taskAssign.json", param,function(data) {
+		$.post(requestUrls.taskAssignUrl, param,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
             }else{

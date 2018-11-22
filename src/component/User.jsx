@@ -4,6 +4,9 @@ import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Di
 	Select
 } from 'antd';
 import $ from 'jquery';
+import Enum from '../common/Enum.js';
+
+const requestUrls =Enum.requestUrls;
 
 const FormItem = Form.Item;
 class User extends Component {
@@ -82,7 +85,7 @@ class User extends Component {
 	
 	getAllGroup(){
 		let self = this;
-		$.post("/queryAllGroup.json", {},function(data) {
+		$.post(requestUrls.queryAllGroupUrl, {},function(data) {
 		    if(!data.success){
                 message.error(data.msg)
             }else{
@@ -94,7 +97,7 @@ class User extends Component {
 		let param = this.state.searchData;
 		let slef = this;
 		Object.assign(this.state.pagination,{loading:true})
-		$.post("/queryUserByPager.json", param,function(data) {
+		$.post(requestUrls.queryUserByPagerUrl, param,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
             }else{
@@ -123,7 +126,7 @@ class User extends Component {
 	 	let params = {
 	 		id:record.id
 	 	}
-	 	$.post("/deleteUser.json", params,function(data) {
+	 	$.post(requestUrls.deleteUserUrl, params,function(data) {
 		    if(!data.success){
                 message.error(data.msg)
             }else{

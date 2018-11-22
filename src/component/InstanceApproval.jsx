@@ -5,6 +5,10 @@ import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Di
 } from 'antd';
 import $ from 'jquery';
 
+import Enum from '../common/Enum.js';
+
+const requestUrls =Enum.requestUrls;
+
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const InputGroup = Input.Group;
@@ -34,7 +38,7 @@ class InstanceApproval extends Component {
 	}
 	getTask(){
 		let self = this;
-		$.post("/queryTaskById.json", {id:this.props.match.params.taskId},function(data) {
+		$.post(requestUrls.queryTaskById.json, {id:this.props.match.params.taskId},function(data) {
 				if(!data.success){
 								message.error(data.msg)
 						}else{
@@ -46,7 +50,7 @@ class InstanceApproval extends Component {
 	}
 	 getHistoricActivityInstance(_processInstanceId){
 		let that = this;
-		$.post("/findHistoricActivityInstance.json", {processInstanceId:_processInstanceId},function(data) {
+		$.post(requestUrls.findHistoricActivityInstanceUrl, {processInstanceId:_processInstanceId},function(data) {
 			
 		     if(!data.success){
                 message.error(data.msg)
@@ -67,7 +71,7 @@ class InstanceApproval extends Component {
 	    completeTask.variables = JSON.stringify(variables);
 	   
 	    
-        $.post("/completeTask.json", completeTask,function(data) {
+        $.post(requestUrls.completeTaskUrl, completeTask,function(data) {
             console.log(data);
              if(!data.success){
                 message.error(data.msg)
@@ -169,79 +173,79 @@ class InstanceApproval extends Component {
                   sm: { span: 16 },
                 },
               };
-        const traceprocessUrl = "/traceprocess.json?definitionId="+this.state.completeTask.processDefinitionId+"&instanceId="+this.state.completeTask.processInstanceId
+        const traceprocessUrl = requestUrls.traceprocessUrl+"?definitionId="+this.state.completeTask.processDefinitionId+"&instanceId="+this.state.completeTask.processInstanceId
 	 	return(
-		<div className='ant-advanced-search-form' >
-	 		<Form
-                horizontal = {'true'} 
-	 			onSubmit={this.completeTask.bind(this)}
-	 		>
-	 				<FormItem
-                           {...formItemLayout}
-                          label="进度图"
-                     >
-	 					<img src={traceprocessUrl}/>
-	 				</FormItem>
-                     <FormItem
-                           {...formItemLayout}
-                          label="任务参数"
-                     >
-                  	
-                  	<InputGroup size="large">
-			         <Col span={7}>
-			         </Col>
-					<Col span={10}>
-							<RadioGroup 
-								value={this.state.paramType}
-								onChange={this.paramTypeChange.bind(this)}>
-					        <Radio value='boolean'>boolean</Radio>
-					        <Radio value='string'>string</Radio>
-					      </RadioGroup>
-			          </Col>
-			          <Col span={3}>
-			             <Button type="primary" shape="circle" icon="plus" size='large' onClick={this.onPlusVariableItem.bind(this)}/>
-			          </Col>
-			        </InputGroup>      
-                     {
-	                     this.state.variableList.map((item, index) => {
-	                     	
-					      	return (
-					      		item.type=='string'?
-					      		<InputGroup key={index} size="large">
-						         <Col span={7}>
-						            <Input placeholder="键" value={item.key} onChange={this.onChangeVariableKey.bind(this,index)}/>
-						          </Col>
-								<Col span={10}>
-						            <Input
-						            style={{width:280}}
-						            placeholder="值" value={item.value} onChange={this.onChangeVariableValue.bind(this,index)}/>
-						          </Col>
-						           <Col span={3}>
-						             <Button type="danger" shape="circle" icon="minus" size='large' onClick={this.onMinusVariableItem.bind(this,index)}/>
-						          </Col>
-						        </InputGroup>
-						        :
-						        <InputGroup key={index} size="large">
-						         <Col span={7}>
-						            <Input placeholder="键" value={item.key} onChange={this.onChangeVariableKey.bind(this,index)}/>
-						          </Col>
-								<Col span={10}>
-						            <Select
-                        				style={{width:280}}
-						            	placeholder="值"
-						            	onChange={this.onChangeSelectVariableValue.bind(this,index)}
-						            	>
-						            	 <Select.Option key={1} value={true}>是</Select.Option>
-						            	 <Select.Option key={2} value={false}>否</Select.Option>
-						            </Select>
-						          </Col>
-						           <Col span={3}>
-						             <Button type="danger" shape="circle" icon="minus" size='large' onClick={this.onMinusVariableItem.bind(this,index)}/>
-						          </Col>
-						        </InputGroup>
-					      	)
-					      })
-				      }             
+					<div className='ant-advanced-search-form' >
+							<Form
+												horizontal = {'true'} 
+								onSubmit={this.completeTask.bind(this)}
+							>
+									<FormItem
+																	 {...formItemLayout}
+																	label="进度图"
+														 >
+										<img src={traceprocessUrl}/>
+									</FormItem>
+														 <FormItem
+																	 {...formItemLayout}
+																	label="任务参数"
+														 >
+														
+														<InputGroup size="large">
+											 <Col span={7}>
+											 </Col>
+									<Col span={10}>
+											<RadioGroup 
+												value={this.state.paramType}
+												onChange={this.paramTypeChange.bind(this)}>
+													<Radio value='boolean'>boolean</Radio>
+													<Radio value='string'>string</Radio>
+												</RadioGroup>
+												</Col>
+												<Col span={3}>
+													 <Button type="primary" shape="circle" icon="plus" size='large' onClick={this.onPlusVariableItem.bind(this)}/>
+												</Col>
+											</InputGroup>      
+														 {
+															 this.state.variableList.map((item, index) => {
+																
+													return (
+														item.type=='string'?
+														<InputGroup key={index} size="large">
+														 <Col span={7}>
+																<Input placeholder="键" value={item.key} onChange={this.onChangeVariableKey.bind(this,index)}/>
+															</Col>
+												<Col span={10}>
+																<Input
+																style={{width:280}}
+																placeholder="值" value={item.value} onChange={this.onChangeVariableValue.bind(this,index)}/>
+															</Col>
+															 <Col span={3}>
+																 <Button type="danger" shape="circle" icon="minus" size='large' onClick={this.onMinusVariableItem.bind(this,index)}/>
+															</Col>
+														</InputGroup>
+														:
+														<InputGroup key={index} size="large">
+														 <Col span={7}>
+																<Input placeholder="键" value={item.key} onChange={this.onChangeVariableKey.bind(this,index)}/>
+															</Col>
+												<Col span={10}>
+																<Select
+																				style={{width:280}}
+																	placeholder="值"
+																	onChange={this.onChangeSelectVariableValue.bind(this,index)}
+																	>
+																	 <Select.Option key={1} value={true}>是</Select.Option>
+																	 <Select.Option key={2} value={false}>否</Select.Option>
+																</Select>
+															</Col>
+															 <Col span={3}>
+																 <Button type="danger" shape="circle" icon="minus" size='large' onClick={this.onMinusVariableItem.bind(this,index)}/>
+															</Col>
+														</InputGroup>
+													)
+												})
+											}             
                      </FormItem>
                       <FormItem
                             {...formItemLayout}
@@ -266,8 +270,8 @@ class InstanceApproval extends Component {
 		                <span style={{padding:"0 3px"}}></span>
                  	</FormItem>
                 </Form>
-									</div>
-	 	)
+						</div>
+					)
 	 }
 }
 

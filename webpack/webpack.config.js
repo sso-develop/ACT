@@ -8,6 +8,7 @@ module.exports = {
         path: path.resolve(__dirname, `../dist`), // 输出的路径
         filename: 'bundle.js'  // 打包后文件
     },
+	mode:'development',
     module: {
         rules: [
             {

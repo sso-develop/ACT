@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Table,Form,Modal,Icon,message,Divider} from 'antd';
 import $ from 'jquery';
+import Enum from '../common/Enum.js';
 
+const requestUrls =Enum.requestUrls;
 class Instance extends Component {
 
 	constructor(props) {
@@ -22,7 +24,7 @@ class Instance extends Component {
     }
     getHistoricActivityInstance(){
 		let that = this;
-		$.post("/findHistoricActivityInstanceByPager.json", this.state.searchData,function(data) {
+		$.post(requestUrls.findHistoricActivityInstanceByPagerUrl, this.state.searchData,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
              }else{

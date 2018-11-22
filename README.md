@@ -7,7 +7,7 @@ npm install react react-dom --save
 npm install webpack --save-dev 
 
 因为我们使用了react，react是使用jsx语法实现的，而jsx不能直接被浏览器识别和执行，所以这里需要引入Babel库进行转码
-npm install babel-core babel-loader babel-preset-es2015 babel-preset-react --save
+npm install babel-core babel-loader babel-preset-es2015 babel-preset-react --save-dev
 
 	babel-loader: babel加载器
 
@@ -31,7 +31,9 @@ npm install webpack-cli -D
 npm install webpack-command -g
 
 npm install webpack --save-dev
-npm install webpack-dev-server --save-dev　　
+npm install webpack-dev-server --save-dev　
+npm install html-webpack-plugin　 --save-dev　
+
 
 
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Divider,Tooltip} from 'antd';
 import $ from 'jquery';
+import Enum from '../common/Enum.js';
 
+const requestUrls =Enum.requestUrls;
 const FormItem = Form.Item;
-
 class Instance extends Component {
 
 	constructor(props) {
@@ -48,7 +49,7 @@ class Instance extends Component {
 	saveGroup(){
 		let param = this.state.group;
 		let slef = this;
-		$.post("/saveGroup.json", param,function(data) {
+		$.post(requestUrls.saveGroupUrl, param,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
             }else{
@@ -63,7 +64,7 @@ class Instance extends Component {
 		let param = {};
 		let slef = this;
 		Object.assign(this.state.pagination,{loading:true})
-		$.post("/queryGroupByPager.json", param,function(data) {
+		$.post(requestUrls.queryGroupByPagerUrl, param,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
             }else{
@@ -81,7 +82,7 @@ class Instance extends Component {
 	 	let params = {
 	 		id:record.id
 	 	}
-	 	$.post("/deleteGroup.json", params,function(data) {
+	 	$.post(requestUrls.deleteGroupUrl, params,function(data) {
 		    if(!data.success){
                 message.error(data.msg)
             }else{

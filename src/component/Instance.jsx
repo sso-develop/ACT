@@ -4,10 +4,11 @@ import { Table,Form,Input,Button,Row,Col,Modal,Upload,Icon,message,Popconfirm,Di
 	Select	
 } from 'antd';
 import $ from 'jquery';
+import Enum from '../common/Enum.js';
 
 import InstanceApproval from './InstanceApproval.jsx';
 import InstanceAssign from './InstanceAssign.jsx';
-
+const requestUrls =Enum.requestUrls;
 const FormItem = Form.Item;
 const { TextArea } = Input;
 class Instance extends Component {
@@ -40,7 +41,7 @@ class Instance extends Component {
     getPersonTask(){
 		let that = this;
 		let param = this.state.searchData;
-		$.post("/findPersonTask.json", param,function(data) {
+		$.post(requestUrls.findPersonTaskUrl, param,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
              }else{
@@ -55,7 +56,7 @@ class Instance extends Component {
 	
 	getUser(){
 		let self = this;
-		$.post("/queryAllUser.json", {},function(data) {
+		$.post(requestUrls.queryAllUserUrl, {},function(data) {
 		     if(!data.success){
                 message.error(data.msg)
             }else{
@@ -69,7 +70,7 @@ class Instance extends Component {
 			taskId:record.id,
 			userId:12
 		}
-		$.post("/taskClaim.json", param,function(data) {
+		$.post(requestUrls.taskClaimUrl, param,function(data) {
 		     if(!data.success){
                 message.error(data.msg)
            }else{
@@ -87,7 +88,7 @@ class Instance extends Component {
     }
     traceprocess(record){
         console.log(record)
-        window.open("/traceprocess.json?definitionId="+record.processDefinitionId+"&instanceId="+record.processInstanceId)
+        window.open(requestUrls.traceprocessUrl+"?definitionId="+record.processDefinitionId+"&instanceId="+record.processInstanceId)
     }
 	closeModal(){
     	this.setState({ 
